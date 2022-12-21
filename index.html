@@ -8,7 +8,7 @@
     <script src="app.js" defer></script>
     <title>Calculator</title>
   </head>
-  <body class="bg-gray-300">
+  <body class="bg-gray-300" style="touch-action: manipulation">
     <header></header>
     <section class="flex justify-center font-sans">
       <div
@@ -17,10 +17,12 @@
       >
         <div
           id="screen"
-          class="bg-white max-w-lg m-auto p-8 rounded-t-2xl text-4xl grid-rows-2 grid text-right gap-2"
+          class="bg-white max-w-lg m-auto p-8 rounded-t-2xl text-4xl grid-rows grid text-right gap-2"
         >
-          <span class="text-slate-500">9+9</span>
-          <span class="text-5xl">18 + 4</span>
+          <span class="text-slate-500 overflow-y-hidden" id="previousInputField"
+            >0</span
+          >
+          <span class="text-6xl overflow-y-hidden" id="inputField">0</span>
         </div>
         <div
           id="keypad"
@@ -30,25 +32,44 @@
             class="grid grid-cols-4 gap-2 p-8 pb-2 justify-evenly bg-gray-100"
           >
             <li
-              class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white rounded-xl ring-1 active:bg-red-500 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
             >
-              <button class="w-full h-full sm:py-8 py-4">7</button>
+              <button
+                class="w-full h-full sm:py-8 py-4"
+                id="button7"
+                data-type="number"
+              >
+                7
+              </button>
             </li>
             <li
               class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
             >
-              <button class="w-full h-full sm:py-8 py-4">8</button>
+              <button
+                class="w-full h-full sm:py-8 py-4"
+                id="button8"
+                data-type="number"
+              >
+                8
+              </button>
             </li>
             <li
               class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
             >
-              <button class="w-full h-full sm:py-8 py-4">9</button>
+              <button
+                class="w-full h-full sm:py-8 py-4"
+                id="button9"
+                data-type="number"
+              >
+                9
+              </button>
             </li>
             <li
               class="bg-slate-200 hover:bg-slate-300 rounded-xl ring-1 hover:ring-slate-900/20 ring-slate-900/10"
             >
               <button
                 class="w-full h-full sm:py-8 py-4 text-slate-600 sm:text-3xl text-2xl"
+                id="buttonDivide"
               >
                 ÷
               </button>
@@ -56,23 +77,42 @@
             <li
               class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
             >
-              <button class="w-full h-full sm:py-8 py-4">4</button>
+              <button
+                class="w-full h-full sm:py-8 py-4"
+                id="button4"
+                data-type="number"
+              >
+                4
+              </button>
             </li>
             <li
               class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
             >
-              <button class="w-full h-full sm:py-8 py-4">5</button>
+              <button
+                class="w-full h-full sm:py-8 py-4"
+                id="button5"
+                data-type="number"
+              >
+                5
+              </button>
             </li>
             <li
               class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
             >
-              <button class="w-full h-full sm:py-8 py-4">6</button>
+              <button
+                class="w-full h-full sm:py-8 py-4"
+                id="button6"
+                data-type="number"
+              >
+                6
+              </button>
             </li>
             <li
               class="bg-slate-200 hover:bg-slate-300 rounded-xl ring-1 hover:ring-slate-900/20 ring-slate-900/10"
             >
               <button
                 class="w-full h-full sm:py-8 py-4 text-slate-600 sm:text-3xl text-2xl"
+                id="buttonMultiply"
               >
                 ×
               </button>
@@ -80,23 +120,42 @@
             <li
               class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
             >
-              <button class="w-full h-full sm:py-8 py-4">1</button>
+              <button
+                class="w-full h-full sm:py-8 py-4"
+                id="button1"
+                data-type="number"
+              >
+                1
+              </button>
             </li>
             <li
               class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
             >
-              <button class="w-full h-full sm:py-8 py-4">2</button>
+              <button
+                class="w-full h-full sm:py-8 py-4"
+                id="button2"
+                data-type="number"
+              >
+                2
+              </button>
             </li>
             <li
               class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
             >
-              <button class="w-full h-full sm:py-8 py-4">3</button>
+              <button
+                class="w-full h-full sm:py-8 py-4"
+                id="button3"
+                data-type="number"
+              >
+                3
+              </button>
             </li>
             <li
               class="bg-slate-200 hover:bg-slate-300 rounded-xl ring-1 hover:ring-slate-900/20 ring-slate-900/10"
             >
               <button
                 class="w-full h-full sm:py-8 py-4 text-slate-600 sm:text-3xl text-2xl"
+                id="buttonSubtract"
               >
                 -
               </button>
@@ -104,17 +163,28 @@
             <li
               class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
             >
-              <button class="w-full h-full sm:py-8 py-4">0</button>
+              <button
+                class="w-full h-full sm:py-8 py-4"
+                id="button0"
+                data-type="number"
+              >
+                0
+              </button>
             </li>
             <li
               class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
             >
-              <button class="w-full h-full sm:py-8 py-4">.</button>
+              <button class="w-full h-full sm:py-8 py-4" id="buttonPeriod">
+                .
+              </button>
             </li>
             <li
               class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
             >
-              <button class="w-full h-full sm:py-8 py-4 text-slate-600">
+              <button
+                class="w-full h-full sm:py-8 py-4 text-slate-600"
+                id="buttonDelete"
+              >
                 ⌫
               </button>
             </li>
@@ -123,6 +193,7 @@
             >
               <button
                 class="w-full h-full sm:py-8 py-4 text-slate-600 sm:text-3xl text-2xl"
+                id="buttonAdd"
               >
                 +
               </button>
@@ -134,12 +205,16 @@
             <li
               class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
             >
-              <button class="w-full h-full sm:py-8 py-4">CLEAR</button>
+              <button class="w-full h-full sm:py-8 py-4" id="buttonClear">
+                CLEAR
+              </button>
             </li>
             <li
               class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
             >
-              <button class="w-full h-full sm:py-8 py-4">ENTER</button>
+              <button class="w-full h-full sm:py-8 py-4" id="buttonEnter">
+                ENTER
+              </button>
             </li>
           </ul>
         </div>
