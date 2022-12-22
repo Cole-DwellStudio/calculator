@@ -10,15 +10,22 @@ const buttonClear = document.querySelector("#buttonClear");
 const buttonEnter = document.querySelector("#buttonEnter");
 const buttonDelete = document.querySelector("#buttonDelete");
 
+const darkModeToggleButton = document.querySelector("#darkModeToggle");
+const darkModeIcon = document.querySelector("#darkModeIcon");
+const lightModeIcon = document.querySelector("#lightModeIcon");
+
 const inputField = document.querySelector("#inputField");
 const previousInputField = document.querySelector("#previousInputField");
 
 // default values
 const placeHolderInput = 0;
-const maxInputLength = 20;
+const maxInputLength = 9;
+let darkMode = false;
 
 // array which stores the operands to be operated on
-let currentOperands = [];
+// let currentOperands = [];
+let firstOperand = "";
+let secondOperand = "";
 
 // stores the current operation to be performed
 let currentOperator = "";
@@ -33,6 +40,7 @@ let result;
 operandButtons.forEach((operandButton) => {
   operandButton.addEventListener("click", (e) => {
     processOperand(operandButton.textContent.trim());
+    console.log(`:${firstOperand}:${currentOperator}:${secondOperand}`);
   });
 });
 
@@ -40,60 +48,82 @@ operandButtons.forEach((operandButton) => {
 operatorButtons.forEach((operatorButton) => {
   operatorButton.addEventListener("click", (e) => {
     processOperator(operatorButton.textContent.trim());
+    console.log(`:${firstOperand}:${currentOperator}:${secondOperand}`);
   });
 });
 
 // adds callback for clear button
 buttonClear.addEventListener("click", (e) => {
   clearInput();
+  console.log(`:${firstOperand}:${currentOperator}:${secondOperand}`);
 });
 
 // adds callback for enter button
 buttonEnter.addEventListener("click", (e) => {
   operate();
+  console.log(`:${firstOperand}:${currentOperator}:${secondOperand}`);
 });
 
 // adds callback for delete button
 buttonDelete.addEventListener("click", (e) => {
   deleteLastInput();
+  console.log(`:${firstOperand}:${currentOperator}:${secondOperand}`);
+});
+
+// registers callback for darkModeToggle button
+darkModeToggleButton.addEventListener("click", (e) => {
+  document.documentElement.classList.toggle("dark");
+  darkMode = !darkMode;
+  darkMode
+    ? (darkModeIcon.style.display = "none")(
+        (lightModeIcon.style.display = "block")
+      )
+    : (darkModeIcon.style.display = "block")(
+        (lightModeIcon.style.display = "none")
+      );
 });
 
 // processes and validates the current input
 function processOperand(input) {
+  // if either of our operands have exceeded their max input length: return early
+  if (
+    firstOperand.length >= maxInputLength ||
+    secondOperand.length >= maxInputLength
+  ) {
+    return;
+  }
+
   // if we don't have a first operand and we're tring to add a decimal
   // just set the first operand to zero and add the decimal
-  if (!currentOperands[0] && input === ".") {
-    currentOperands[0] = `0${input}`;
+  if (firstOperand === "" && input === ".") {
+    firstOperand = `0${input}`;
     updateDisplay();
     return;
   }
 
-  // if we've reached our max input length return early
-  if (currentOperands.join("").toString().length >= maxInputLength) {
-    return;
-  }
-
   // if we're trying to add a decimal but we already have one -> return early
-  if (input === "." && currentOperands.join("").toString().includes(".")) {
+  if (
+    input === "." &&
+    (firstOperand + secondOperand).toString().includes(".")
+  ) {
     return;
   }
 
-  // if we don't have a first operand, set it using our input
-  if (!currentOperands[0]) {
-    currentOperands[0] = `${input}`;
+  // if we DON'T have a first operand, set it using our input
+  if (firstOperand === "") {
+    firstOperand = `${input}`;
   }
-  // if we DO have a first operand but not an operator append to the first
-  else if (!currentOperator) {
-    currentOperands[0] = `${currentOperands[0].toString()}${input}`;
+  // else if we DO have a first operand but not an operator append input to the first
+  else if (currentOperator === "") {
+    firstOperand = `${firstOperand}${input}`;
   }
-  // else if we a first operand and an operator append to the second operand
-  else if (currentOperands[0] && currentOperator && currentOperands[1]) {
-    currentOperands[1] = `${currentOperands[1].toString()}${input}`;
+  // else if we DO already have a second operand just append our input to it
+  else if (secondOperand) {
+    secondOperand = `${secondOperand}${input}`;
   }
-  // else if have a first operator and we have an operator
-  // but our second operand is empty: just set it to our input
-  else if (currentOperands[0] && currentOperator && !currentOperands[1]) {
-    currentOperands[1] = `${input}`;
+  // otherwise we must not have a have a second operand so just set it to our input
+  else {
+    secondOperand = `${input}`;
   }
   updateDisplay();
 }
@@ -101,21 +131,24 @@ function processOperand(input) {
 // processes operand inputs
 function processOperator(operator) {
   // If we don't have a first operand yet just return early
-  if (!currentOperands[0]) {
+  if (firstOperand === "") {
+    return;
+  }
+
+  // else if already have two operands and an operator: operate()
+  // *the currentOperator will be updated by operate()
+  if (secondOperand && firstOperand && currentOperator) {
+    operate();
+    currentOperator = operator;
+    updateDisplay();
     return;
   }
 
   // if we already have an operand and but we don't have an operator
   // store our desired operator
-  if (currentOperands[0] && !currentOperator) {
+  if (firstOperand && !currentOperator) {
     currentOperator = operator;
     updateDisplay();
-  }
-
-  // else if already have two operands and an operator: operate()
-  // *the currentOperator will be updated by operate()
-  else if (currentOperands[1] && currentOperands[0] && currentOperator) {
-    operate();
   }
 }
 
@@ -127,20 +160,17 @@ function updateDisplay() {
   }
 
   // if we DON'T currently have an operand then just set our inputField to its default
-  if (!currentOperands[0]) {
+  if (firstOperand === "") {
     inputField.textContent = placeHolderInput;
     return;
   }
 
   // if we have both operands and an operator update accordingly
-  if (currentOperands[0] && currentOperator && currentOperands[1]) {
-    inputField.textContent = `${Number(currentOperands[0]).toLocaleString(
-      "en",
-      {
-        maximumFractionDigits: 4,
-      }
-    )}${currentOperator}${Number(
-      currentOperands[1].toLocaleString("en", {
+  if (firstOperand && currentOperator && secondOperand) {
+    inputField.textContent = `${Number(firstOperand).toLocaleString("en", {
+      maximumFractionDigits: 4,
+    })}${currentOperator}${Number(
+      secondOperand.toLocaleString("en", {
         maximumFractionDigits: 4,
       })
     )}`;
@@ -148,32 +178,36 @@ function updateDisplay() {
   }
 
   // if we have a first operand and an operator but not a second operand then...
-  if (currentOperands[0] && currentOperator && !currentOperands[1]) {
-    inputField.textContent = `${Number(currentOperands[0]).toLocaleString(
-      "en",
-      {
-        maximumFractionDigits: 4,
-      }
-    )}${currentOperator}`;
+  if (firstOperand && currentOperator && !secondOperand) {
+    inputField.textContent = `${Number(firstOperand).toLocaleString("en", {
+      maximumFractionDigits: 4,
+    })}${currentOperator}`;
     return;
   }
 
   // if we only have a first operand but not an operator or second operand
-  if (currentOperands[0] && !currentOperator && !currentOperands[1]) {
-    inputField.textContent = Number(currentOperands[0]).toLocaleString("en", {
+  if (firstOperand && !currentOperator && !secondOperand) {
+    inputField.textContent = Number(firstOperand).toLocaleString("en", {
       maximumFractionDigits: 4,
     });
   }
 
   // since toLocalString strips trailing decimal points we need to add one back when necessary
-  if (currentOperands.join("").endsWith(".")) {
-    inputField.textContent += ".";
+  if (firstOperand.length > 0) {
+    if (firstOperand.endsWith(".")) {
+      inputField.textContent += ".";
+    }
+  } else if (secondOperand.length > 0) {
+    if (secondOperand.endsWith(".")) {
+      inputField.textContent += ".";
+    }
   }
 }
 
 // clears the current operation and resets the screen to default values
 function clearInput() {
-  currentOperands = [];
+  firstOperand = "";
+  secondOperand = "";
   currentOperator = "";
   previousOperation = "0";
 
@@ -183,65 +217,63 @@ function clearInput() {
 
 // removes the last user input and updates the display
 function deleteLastInput() {
-  if (currentOperands[0] && currentOperands[1]) {
-    currentOperands[1] = currentOperands[1].slice(
-      0,
-      currentOperands[1].length - 1
-    );
-  } else if (currentOperands[0] && currentOperator && !currentOperands[1]) {
+  console.log(`:${firstOperand}:${currentOperator}:${secondOperand}`);
+  if (secondOperand.length > 0) {
+    secondOperand = secondOperand.slice(0, secondOperand.length - 1);
+    console.log("deleting second operand!");
+  } else if (currentOperator.length > 0) {
     currentOperator = "";
-  } else if (currentOperands[0]) {
-    currentOperands[0] = currentOperands[0].slice(
-      0,
-      currentOperands[0].length - 1
-    );
-  } else {
-    return;
+    console.log("deleting operator!");
+  } else if (firstOperand.length > 0) {
+    firstOperand = firstOperand.slice(0, firstOperand.length - 1);
+    console.log("deleting first operand!");
   }
   updateDisplay();
+  return;
 }
 
-function multiply(firstOperand, secondOperand) {
-  return firstOperand * secondOperand;
+function multiply(operand1, operand2) {
+  return operand1 * operand2;
 }
 
-function add(firstOperand, secondOperand) {
-  return firstOperand + secondOperand;
+function add(operand1, operand2) {
+  return operand1 + operand2;
 }
 
-function subtract(firstOperand, secondOperand) {
-  return firstOperand - secondOperand;
+function subtract(operand1, operand2) {
+  return operand1 - operand2;
 }
 
-function divide(firstOperand, secondOperand) {
-  // if (secondOperand === "0") {
-  //   return;
-  // }
-  return firstOperand / secondOperand;
+function divide(operand1, operand2) {
+  return operand1 / operand2;
 }
 
 // performs the requested operation on the current operands
 function operate() {
-  previousOperation = currentOperands[0] + currentOperator + currentOperands[1];
+  previousOperation = firstOperand + currentOperator + secondOperand;
   switch (currentOperator) {
     case "+":
-      result = add(Number(currentOperands[0]), Number(currentOperands[1]));
+      result = add(Number(firstOperand), Number(secondOperand));
       break;
     case "-":
-      result = subtract(Number(currentOperands[0]), Number(currentOperands[1]));
+      result = subtract(Number(firstOperand), Number(secondOperand));
       break;
     case "×":
-      result = multiply(Number(currentOperands[0]), Number(currentOperands[1]));
+      result = multiply(Number(firstOperand), Number(secondOperand));
       break;
     case "÷":
-      result = divide(Number(currentOperands[0]), Number(currentOperands[1]));
+      result = divide(Number(firstOperand), Number(secondOperand));
       break;
   }
   if (result) {
-    currentOperands = ["0"];
-    currentOperands[0] = result;
+    firstOperand = "";
+    secondOperand = "";
+    firstOperand = result.toString().slice(0, 6);
     currentOperator = "";
     updateDisplay();
     previousOperation = "";
+  } else {
+    console.error("calculation failed!");
+    return;
   }
 }

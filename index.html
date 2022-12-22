@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,31 +8,79 @@
     <script src="app.js" defer></script>
     <title>Calculator</title>
   </head>
-  <body class="bg-gray-300" style="touch-action: manipulation">
+  <body
+    class="bg-gray-300 dark:bg-slate-800"
+    style="touch-action: manipulation"
+  >
     <header></header>
     <section class="flex justify-center font-sans">
       <div
         id="calculator"
-        class="max-w-lg w-full mx-2 sm:mt-16 mt-4 gap-0 bg-white rounded-2xl shadow-lg ring-1 ring-slate-900/5"
+        class="max-w-lg w-full mx-2 sm:mt-16 mt-4 gap-0 bg-white dark:bg-slate-800 rounded-2xl shadow-lg ring-1 ring-slate-900/5"
       >
         <div
           id="screen"
-          class="bg-white max-w-lg m-auto p-8 rounded-t-2xl text-4xl grid-rows grid text-right gap-2"
+          class="bg-white dark:bg-slate-500 max-w-lg m-auto p-8 rounded-t-2xl text-4xl flex flex-col text-right gap-2"
         >
-          <span class="text-slate-500 overflow-y-hidden" id="previousInputField"
+          <div class="flex justify-between">
+            <button
+              class="bg-slate-100 dark:bg-slate-600 py-2 px-2 rounded-lg text-slate-600 dark:text-white"
+              id="darkModeToggle"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+                id="lightModeIcon"
+                style="display: none"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                />
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+                id="darkModeIcon"
+                style="display: block"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+                />
+              </svg>
+            </button>
+            <span
+              class="text-slate-500 dark:text-gray-300 overflow-y-hidden"
+              id="previousInputField"
+              >0</span
+            >
+          </div>
+          <span
+            class="text-6xl overflow-y-hidden dark:text-white"
+            id="inputField"
             >0</span
           >
-          <span class="text-6xl overflow-y-hidden" id="inputField">0</span>
         </div>
         <div
           id="keypad"
-          class="font-bold text-gray-500 text-center sm:text-2xl text-xl pt-0"
+          class="font-bold text-gray-500 dark:text-white text-center sm:text-3xl text-2xl pt-0"
         >
           <ul
-            class="grid grid-cols-4 gap-2 p-8 pb-2 justify-evenly bg-gray-100"
+            class="grid grid-cols-4 gap-2 p-8 pb-2 justify-evenly bg-gray-100 dark:bg-slate-700"
           >
             <li
-              class="bg-white rounded-xl ring-1 active:bg-red-500 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white dark:bg-slate-500 rounded-xl ring-1 hover:bg-gray-100 dark:hover:bg-slate-600 hover:ring-slate-900/10 ring-slate-900/5 dark:ring-slate-100/30 dark:hover:ring-slate-900/20"
             >
               <button
                 class="w-full h-full sm:py-8 py-4"
@@ -43,7 +91,7 @@
               </button>
             </li>
             <li
-              class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white dark:bg-slate-500 rounded-xl ring-1 hover:bg-gray-100 dark:hover:bg-slate-600 hover:ring-slate-900/10 ring-slate-900/5 dark:ring-slate-100/30 dark:hover:ring-slate-900/20"
             >
               <button
                 class="w-full h-full sm:py-8 py-4"
@@ -54,7 +102,7 @@
               </button>
             </li>
             <li
-              class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white dark:bg-slate-500 rounded-xl ring-1 hover:bg-gray-100 dark:hover:bg-slate-600 hover:ring-slate-900/10 ring-slate-900/5 dark:ring-slate-100/30 dark:hover:ring-slate-900/20"
             >
               <button
                 class="w-full h-full sm:py-8 py-4"
@@ -65,17 +113,17 @@
               </button>
             </li>
             <li
-              class="bg-slate-200 hover:bg-slate-300 rounded-xl ring-1 hover:ring-slate-900/20 ring-slate-900/10"
+              class="bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-800 rounded-xl ring-1 hover:ring-slate-900/20 ring-slate-900/10"
             >
               <button
-                class="w-full h-full sm:py-8 py-4 text-slate-600 sm:text-3xl text-2xl"
+                class="w-full h-full sm:py-8 py-4 text-slate-600 dark:text-slate-300 sm:text-4xl text-3xl"
                 id="buttonDivide"
               >
                 ÷
               </button>
             </li>
             <li
-              class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white dark:bg-slate-500 rounded-xl ring-1 hover:bg-gray-100 dark:hover:bg-slate-600 hover:ring-slate-900/10 ring-slate-900/5 dark:ring-slate-100/30 dark:hover:ring-slate-900/20"
             >
               <button
                 class="w-full h-full sm:py-8 py-4"
@@ -86,7 +134,7 @@
               </button>
             </li>
             <li
-              class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white dark:bg-slate-500 rounded-xl ring-1 hover:bg-gray-100 dark:hover:bg-slate-600 hover:ring-slate-900/10 ring-slate-900/5 dark:ring-slate-100/30 dark:hover:ring-slate-900/20"
             >
               <button
                 class="w-full h-full sm:py-8 py-4"
@@ -97,7 +145,7 @@
               </button>
             </li>
             <li
-              class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white dark:bg-slate-500 rounded-xl ring-1 hover:bg-gray-100 dark:hover:bg-slate-600 hover:ring-slate-900/10 ring-slate-900/5 dark:ring-slate-100/30 dark:hover:ring-slate-900/20"
             >
               <button
                 class="w-full h-full sm:py-8 py-4"
@@ -108,17 +156,17 @@
               </button>
             </li>
             <li
-              class="bg-slate-200 hover:bg-slate-300 rounded-xl ring-1 hover:ring-slate-900/20 ring-slate-900/10"
+              class="bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-800 rounded-xl ring-1 hover:ring-slate-900/20 ring-slate-900/10"
             >
               <button
-                class="w-full h-full sm:py-8 py-4 text-slate-600 sm:text-3xl text-2xl"
+                class="w-full h-full sm:py-8 py-4 text-slate-600 dark:text-slate-300 sm:text-4xl text-3xl"
                 id="buttonMultiply"
               >
                 ×
               </button>
             </li>
             <li
-              class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white dark:bg-slate-500 rounded-xl ring-1 hover:bg-gray-100 dark:hover:bg-slate-600 hover:ring-slate-900/10 ring-slate-900/5 dark:ring-slate-100/30 dark:hover:ring-slate-900/20"
             >
               <button
                 class="w-full h-full sm:py-8 py-4"
@@ -129,7 +177,7 @@
               </button>
             </li>
             <li
-              class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white dark:bg-slate-500 rounded-xl ring-1 hover:bg-gray-100 dark:hover:bg-slate-600 hover:ring-slate-900/10 ring-slate-900/5 dark:ring-slate-100/30 dark:hover:ring-slate-900/20"
             >
               <button
                 class="w-full h-full sm:py-8 py-4"
@@ -140,7 +188,7 @@
               </button>
             </li>
             <li
-              class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white dark:bg-slate-500 rounded-xl ring-1 hover:bg-gray-100 dark:hover:bg-slate-600 hover:ring-slate-900/10 ring-slate-900/5 dark:ring-slate-100/30 dark:hover:ring-slate-900/20"
             >
               <button
                 class="w-full h-full sm:py-8 py-4"
@@ -151,17 +199,17 @@
               </button>
             </li>
             <li
-              class="bg-slate-200 hover:bg-slate-300 rounded-xl ring-1 hover:ring-slate-900/20 ring-slate-900/10"
+              class="bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-800 rounded-xl ring-1 hover:ring-slate-900/20 ring-slate-900/10"
             >
               <button
-                class="w-full h-full sm:py-8 py-4 text-slate-600 sm:text-3xl text-2xl"
+                class="w-full h-full sm:py-8 py-4 text-slate-600 dark:text-slate-300 sm:text-4xl text-3xl"
                 id="buttonSubtract"
               >
                 -
               </button>
             </li>
             <li
-              class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white dark:bg-slate-500 rounded-xl ring-1 hover:bg-gray-100 dark:hover:bg-slate-600 hover:ring-slate-900/10 ring-slate-900/5 dark:ring-slate-100/30 dark:hover:ring-slate-900/20"
             >
               <button
                 class="w-full h-full sm:py-8 py-4"
@@ -172,27 +220,27 @@
               </button>
             </li>
             <li
-              class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white dark:bg-slate-500 rounded-xl ring-1 hover:bg-gray-100 dark:hover:bg-slate-600 hover:ring-slate-900/10 ring-slate-900/5 dark:ring-slate-100/30 dark:hover:ring-slate-900/20"
             >
               <button class="w-full h-full sm:py-8 py-4" id="buttonPeriod">
                 .
               </button>
             </li>
             <li
-              class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white dark:bg-slate-500 rounded-xl ring-1 hover:bg-gray-100 dark:hover:bg-slate-600 hover:ring-slate-900/10 ring-slate-900/5 dark:ring-slate-100/30 dark:hover:ring-slate-900/20"
             >
               <button
-                class="w-full h-full sm:py-8 py-4 text-slate-600"
+                class="w-full h-full sm:py-8 py-4 text-slate-600 dark:text-white"
                 id="buttonDelete"
               >
                 ⌫
               </button>
             </li>
             <li
-              class="bg-slate-200 hover:bg-slate-300 rounded-xl ring-1 hover:ring-slate-900/20 ring-slate-900/10"
+              class="bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-800 rounded-xl ring-1 hover:ring-slate-900/20 ring-slate-900/10"
             >
               <button
-                class="w-full h-full sm:py-8 py-4 text-slate-600 sm:text-3xl text-2xl"
+                class="w-full h-full sm:py-8 py-4 text-slate-600 dark:text-slate-300 sm:text-4xl text-3xl"
                 id="buttonAdd"
               >
                 +
@@ -200,30 +248,26 @@
             </li>
           </ul>
           <ul
-            class="grid grid-cols-2 gap-2 px-8 pb-8 pt-2 justify-evenly rounded-b-2xl bg-gray-100 sm:text-xl text-lg"
+            class="grid grid-cols-2 gap-2 px-8 pb-8 pt-2 justify-evenly rounded-b-2xl bg-gray-100 dark:bg-slate-700 sm:text-xl text-lg"
           >
             <li
-              class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white dark:bg-slate-500 rounded-xl ring-1 hover:bg-gray-100 dark:hover:bg-slate-600 hover:ring-slate-900/10 ring-slate-900/5 dark:ring-slate-100/30 dark:hover:ring-slate-900/20"
             >
               <button class="w-full h-full sm:py-8 py-4" id="buttonClear">
                 CLEAR
               </button>
             </li>
             <li
-              class="bg-white rounded-xl ring-1 hover:bg-gray-100 hover:ring-slate-900/10 ring-slate-900/5"
+              class="bg-white dark:bg-slate-500 rounded-xl ring-1 hover:bg-gray-100 dark:hover:bg-slate-600 hover:ring-slate-900/10 ring-slate-900/5 dark:ring-slate-100/30 dark:hover:ring-slate-900/20"
             >
               <button class="w-full h-full sm:py-8 py-4" id="buttonEnter">
                 ENTER
               </button>
             </li>
+            <li></li>
           </ul>
         </div>
       </div>
     </section>
-    <footer class="">
-      <div class="absolute bottom-0 text-center w-full text-gray-200 font-bold">
-        @ColeIsaacHarris 2022
-      </div>
-    </footer>
   </body>
 </html>
